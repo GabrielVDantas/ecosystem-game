@@ -5,17 +5,16 @@ import org.example.inputs.Input;
 
 import java.util.Arrays;
 
-public class Width implements Input {
-
+public class Generation implements Input {
 
     @Override
     public String getName() {
-        return "Width";
+        return "Generation";
     }
 
     @Override
     public String getPattern() {
-        return "wd";
+        return "gn";
     }
 
     @Override
@@ -25,7 +24,7 @@ public class Width implements Input {
 
     @Override
     public String getDomain() {
-        return "[10:15:20:25:50:100]";
+        return "0:1:2:3:4:5:6:7:8:9";
     }
 
     @Override
@@ -34,5 +33,11 @@ public class Width implements Input {
         String[] domain = this.getDomain().split(":");
 
         if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputDomainValueException(this.getName());
+
+        int number = Integer.parseInt(value);
+
+        int min = 1, max = 1000;
+
+        if (number < min ||  number > max) throw new InputDomainValueException(this.getName());
     }
 }

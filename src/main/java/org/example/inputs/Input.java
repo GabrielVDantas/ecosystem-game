@@ -2,7 +2,13 @@ package org.example.inputs;
 
 public interface Input {
 
+    String getName();
+
     String getPattern();
 
-    String getName();
+    boolean isMandatory();
+
+    String getDomain();
+
+    void validateInputValue(String value);
 }

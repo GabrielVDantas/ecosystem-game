@@ -5,17 +5,15 @@ import org.example.inputs.Input;
 
 import java.util.Arrays;
 
-public class Width implements Input {
-
-
+public class Height implements Input {
     @Override
     public String getName() {
-        return "Width";
+        return "Height";
     }
 
     @Override
     public String getPattern() {
-        return "wd";
+        return "hg";
     }
 
     @Override

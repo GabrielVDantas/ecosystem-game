@@ -15,7 +15,7 @@ public class InputRegistry {
 
         Input input = this.inputs.get(pattern);
 
-        if (input == null) throw new InputNotFoundException("Não foi encontrado um Input para o seguinte pattern: " + pattern);
+        if (input == null) throw new InputNotFoundException(pattern);
 
         return input;
     }

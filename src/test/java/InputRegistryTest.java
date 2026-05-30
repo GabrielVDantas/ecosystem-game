@@ -1,6 +1,8 @@
 import org.example.exceptions.InputNotFoundException;
 import org.example.inputs.Input;
 import org.example.inputs.InputRegistry;
+import org.example.inputs.info.Generation;
+import org.example.inputs.info.Height;
 import org.example.inputs.info.Width;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class InputRegistryTest {
 
     private final List<Input> instances = List.of(
-            new Width()
+            new Width(), new Height(), new Generation()
     );
 
     private final InputRegistry inputRegistry = new InputRegistry(instances);
@@ -38,8 +40,8 @@ class InputRegistryTest {
 
         String invalidPattern = "xx";
 
-        assertThrows(InputNotFoundException.class, () -> {
-            this.inputRegistry.getInputBasedOnPattern(invalidPattern);
-        });
+        assertThrows(InputNotFoundException.class, () ->
+            this.inputRegistry.getInputBasedOnPattern(invalidPattern)
+        );
     }
 }

@@ -5,27 +5,26 @@ import org.example.inputs.Input;
 
 import java.util.Arrays;
 
-public class Width implements Input {
-
+public class Seed implements Input {
 
     @Override
     public String getName() {
-        return "Width";
+        return "Seed";
     }
 
     @Override
     public String getPattern() {
-        return "wd";
+        return "se";
     }
 
     @Override
     public boolean isMandatory() {
-        return true;
+        return false;
     }
 
     @Override
     public String getDomain() {
-        return "[10:15:20:25:50:100]";
+        return "0:1:2:3:4:5:6:7:8:9:#";
     }
 
     @Override
