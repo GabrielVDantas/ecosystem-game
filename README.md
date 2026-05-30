@@ -11,5 +11,5 @@ This is a **terminal-based game** that simulates a dynamic ecosystem. The player
 * **Height** `[Height]` - `[hg]` - `[Mandatory]` - `[10 - 15 - 20 - 25 - 50 - 100]`
     > Defines the vertical size of the map.
 
-* **Generation** `[Height]` - `[hg]` - `[Mandatory]` - `[10 - 15 - 20 - 25 - 50 - 100]`
+* **Generation** `[Generation]` - `[gn]` - `[Mandatory]` - `[0 <-> 1000]`
     > Defines how much generations will be simulated.
