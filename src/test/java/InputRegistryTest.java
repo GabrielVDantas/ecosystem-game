@@ -1,0 +1,45 @@
+import org.example.exceptions.InputNotFoundException;
+import org.example.inputs.Input;
+import org.example.inputs.InputRegistry;
+import org.example.inputs.info.Width;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@ExtendWith(MockitoExtension.class)
+class InputRegistryTest {
+
+    private final List<Input> instances = List.of(
+            new Width()
+    );
+
+    private final InputRegistry inputRegistry = new InputRegistry(instances);
+
+    @Test
+    @DisplayName("A registry deve retornar o Input equivalente ao pattern passado.")
+    void inputRegistryMustGetInputBasedOnPattern() {
+
+        String wantedPattern = new Width().getPattern();
+
+        Input received = this.inputRegistry.getInputBasedOnPattern(wantedPattern);
+
+        assertEquals(wantedPattern, received.getPattern());
+    }
+
+    @Test
+    @DisplayName("A registry deve lançar uma exceção quando receber um pattern inválido.")
+    void inputRegistryMustThrowExceptionWhenPatternIsInvalid() {
+
+        String invalidPattern = "xx";
+
+        assertThrows(InputNotFoundException.class, () -> {
+            this.inputRegistry.getInputBasedOnPattern(invalidPattern);
+        });
+    }
+}
