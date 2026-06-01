@@ -3,35 +3,34 @@ package org.example.inputs.info;
 import org.example.exceptions.InputValueException;
 import org.example.inputs.Input;
 
+
 import java.util.Arrays;
 
-public class Width implements Input {
-
-
+public class Exhibition implements Input {
     @Override
     public String getName() {
-        return "Width";
+        return "Exhibition";
     }
 
     @Override
     public String getPattern() {
-        return "wd";
+        return "ex";
     }
 
     @Override
     public boolean isMandatory() {
-        return true;
+        return false;
     }
 
     @Override
     public String getDomain() {
-        return "15:20:25:50:100";
+        return "l:i:n";
     }
 
     @Override
     public void validateInputValue(String value) {
 
-        String[] domain = this.getDomain().split(":");
+        String[] domain = value.split(":");
 
         if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputValueException(this.getName());
     }

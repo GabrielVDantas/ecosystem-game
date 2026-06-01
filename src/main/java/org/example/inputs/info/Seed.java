@@ -1,6 +1,6 @@
 package org.example.inputs.info;
 
-import org.example.exceptions.InputDomainValueException;
+import org.example.exceptions.InputValueException;
 import org.example.inputs.Input;
 
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public class Seed implements Input {
 
     @Override
     public String getDomain() {
-        return "0:1:2:3:4:5:6:7:8:9:#";
+        return "0:1:2:3:4:5:#";
     }
 
     @Override
@@ -32,6 +32,10 @@ public class Seed implements Input {
 
         String[] domain = this.getDomain().split(":");
 
-        if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputDomainValueException(this.getName());
+        for (int i = 0; i < value.length(); i++) {
+            String character = String.valueOf(value.charAt(i));
+
+            if (Arrays.stream(domain).noneMatch(character::equals)) throw new InputValueException(this.getName());
+        }
     }
 }

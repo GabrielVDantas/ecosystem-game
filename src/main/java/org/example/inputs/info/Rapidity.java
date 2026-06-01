@@ -5,17 +5,15 @@ import org.example.inputs.Input;
 
 import java.util.Arrays;
 
-public class Width implements Input {
-
-
+public class Rapidity implements Input {
     @Override
     public String getName() {
-        return "Width";
+        return "Rapidity";
     }
 
     @Override
     public String getPattern() {
-        return "wd";
+        return "rp";
     }
 
     @Override
@@ -25,7 +23,7 @@ public class Width implements Input {
 
     @Override
     public String getDomain() {
-        return "15:20:25:50:100";
+        return "100:250:500:750:1000";
     }
 
     @Override

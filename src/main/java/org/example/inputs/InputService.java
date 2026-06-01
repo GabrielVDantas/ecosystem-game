@@ -1,20 +1,16 @@
 package org.example.inputs;
 
+import org.example.exceptions.InputDimensionsException;
 import org.example.exceptions.InputIncompleteException;
 import org.example.exceptions.InputMissingException;
-import org.example.inputs.info.Generation;
-import org.example.inputs.info.Height;
-import org.example.inputs.info.Seed;
-import org.example.inputs.info.Width;
+import org.example.inputs.info.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InputService {
 
     private final List<Input> instances = List.of(
-            new Width(), new Height(), new Generation(), new Seed()
+            new Exhibition(), new Generation(), new Height(), new Rapidity(), new Seed(), new Width()
     );
 
     private final InputRegistry registry = new InputRegistry(instances);
@@ -25,7 +21,7 @@ public class InputService {
 
         for (String input : inputs) {
 
-            if (input.length() < 4 || !input.contains("=") || input.indexOf("=") != 2) throw new InputIncompleteException(input);
+            if (input.length() < 4 || input.indexOf("=") != 2) throw new InputIncompleteException(input);
 
             String[] itens = input.split("=");
             String pattern = itens[0].toLowerCase(), value = itens[1].toLowerCase();
@@ -44,20 +40,24 @@ public class InputService {
             if (input.isMandatory() && (related == null || related.isBlank())) throw new InputMissingException(input.getName());
         }
 
-        //this.validateMapDimensions(this.received.get(new Seed().getPattern()));
+        if (this.received.get(new Seed().getPattern()) != null) {
+            this.validateMapDimensions(
+                    this.received.get(new Seed().getPattern()),
+                    Integer.parseInt(this.received.get(new Width().getPattern())),
+                    Integer.parseInt(this.received.get(new Height().getPattern()))
+            );
+        }
     }
 
-    private void validateMapDimensions(String seed) {
+    private void validateMapDimensions(String seed, int width, int height) {
 
-        int width = Integer.parseInt(this.received.get(new Width().getPattern()));
+        int equals = (int) seed.chars().filter(c -> c == '#').count();
 
-        int height = Integer.parseInt(this.received.get(new Height().getPattern()));
+        if (equals + 1 > height) throw new InputDimensionsException(height, width, seed);
 
-        int equals = 0;
-        for (int i = 0; i < seed.length(); i++) {
-            if (seed.charAt(i) == '=') equals++;
-        }
+        int line = Arrays.stream(seed.split("#"))
+                .max(Comparator.comparingInt(String::length)).orElse("").length();
 
-
+        if (line > width) throw new InputDimensionsException(height, width, seed);
     }
 }

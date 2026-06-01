@@ -11,16 +11,16 @@ This is a **terminal-based game** that simulates a dynamic ecosystem. The player
 * **Height** `[Height]` - `[hg]` - `[Is Mandatory]` - `[15 - 20 - 25 - 50 - 100]`
     > Defines the vertical size of the map.
 
-* **Generation** `[Generation]` - `[gn]` - `[Is Mandatory]` - `[0 <= gn <= 1000]`
+* **Generation** `[Generation]` - `[gn]` - `[Is Mandatory]` - `[0 < gn <= 1000]`
     > Defines how much generations will be simulated.
 
-* **Seed** `[Seed]` - `[se]` - `[Isn't Mandatory]` - `[0 <= gn <= 1000]`
+* **Seed** `[Seed]` - `[se]` - `[Isn't Mandatory]` - `[0 - 1 - 2 - 3 - 4 - 5 - #]`
     > Defines how the fisrt generation will be.
 
 * **Rapitdity** `[Rapidity]` - `[rp]` - `[Is Mandatory]` - `[100 - 250 - 500 - 750 - 1000]`
     > Defines how fast generation simulation will be.
 
-* **Exibition** `[Exibition]` - `[ex]` - `[Isn't Mandatory]` - `[l - i - n]`
+* **Exhibition** `[Exhibition]` - `[ex]` - `[Isn't Mandatory]` - `[l - i - n]`
     > Defines how seed elements will be printed in console.
 
 ### ⚙️ Seed elements

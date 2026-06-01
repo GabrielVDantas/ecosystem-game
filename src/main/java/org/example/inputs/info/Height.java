@@ -1,6 +1,6 @@
 package org.example.inputs.info;
 
-import org.example.exceptions.InputDomainValueException;
+import org.example.exceptions.InputValueException;
 import org.example.inputs.Input;
 
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class Height implements Input {
 
     @Override
     public String getDomain() {
-        return "[10:15:20:25:50:100]";
+        return "10:15:20:25:50:100";
     }
 
     @Override
@@ -31,6 +31,6 @@ public class Height implements Input {
 
         String[] domain = this.getDomain().split(":");
 
-        if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputDomainValueException(this.getName());
+        if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputValueException(this.getName());
     }
 }

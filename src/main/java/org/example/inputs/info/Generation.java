@@ -1,9 +1,7 @@
 package org.example.inputs.info;
 
-import org.example.exceptions.InputDomainValueException;
+import org.example.exceptions.InputValueException;
 import org.example.inputs.Input;
-
-import java.util.Arrays;
 
 public class Generation implements Input {
 
@@ -24,20 +22,20 @@ public class Generation implements Input {
 
     @Override
     public String getDomain() {
-        return "0:1:2:3:4:5:6:7:8:9";
+        return "1:1000";
     }
 
     @Override
     public void validateInputValue(String value) {
 
-        String[] domain = this.getDomain().split(":");
+        if (!value.chars().allMatch(Character::isDigit)) throw new RuntimeException(this.getName());
 
-        if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputDomainValueException(this.getName());
+        String[] domain = this.getDomain().split(":");
 
         int number = Integer.parseInt(value);
 
-        int min = 1, max = 1000;
+        int min = Integer.parseInt(domain[0]), max = Integer.parseInt(domain[1]);
 
-        if (number < min ||  number > max) throw new InputDomainValueException(this.getName());
+        if (number < min || number > max) throw new InputValueException(this.getName());
     }
 }

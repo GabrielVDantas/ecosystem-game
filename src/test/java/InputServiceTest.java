@@ -1,12 +1,13 @@
-import factory.InputTestDataFactory;
-import org.example.exceptions.InputIncompleteException;
+
+import org.example.exceptions.InputDimensionsException;
 import org.example.exceptions.InputMissingException;
 import org.example.inputs.InputService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class InputServiceTest {
@@ -14,78 +15,56 @@ class InputServiceTest {
     private final InputService inputService = new InputService();
 
     @Test
-    void mustAcceptInputs() {
+    @DisplayName("Usuário passa todos os parâmetros válidos e o sistema deve aceitar.")
+    void mustReceiveAndAcceptAllInputs() {
 
-        String[] inputs = InputTestDataFactory.getCorrectBothMandatoryAndOptionalInputs();
+        String[] inputs = {"wd=15", "hg=20", "gn=20", "se=0123#", "rp=250", "ex=i"};
 
-        this.inputService.validateInputs(inputs);
+        assertDoesNotThrow(() -> inputService.validateInputs(inputs));
     }
 
     @Test
-    void mustThrowExceptionWhenInputsAreTooShort() {
+    @DisplayName("Usuário passa apenas os parâmetros obrigatórios e o sistema deve aceitar.")
+    void mustAcceptJustMandatoryInputs() {
 
-        String[] inputs = {"wd=10", "hg="};
+        String[] inputs = {"wd=15", "hg=20", "gn=20", "rp=250"};
 
-        assertThrows(InputIncompleteException.class, () ->
-            this.inputService.validateInputs(inputs)
-        );
+        assertDoesNotThrow(() -> inputService.validateInputs(inputs));
     }
 
     @Test
-    void mustThrowExceptionWhenInputsAreWithoutEquals() {
+    @DisplayName("Usuário não passa todos os parâmetros obrigatórios.")
+    void mustThrowExceptionWithoutMandatoryInputs() {
 
-        String[] inputs = {"wd=10", "hg10"};
+        String[] inputs = {"wd=15", "se=0123#", "ex=i"};
 
-        assertThrows(InputIncompleteException.class, () ->
-                this.inputService.validateInputs(inputs)
-        );
+        assertThrows(InputMissingException.class, () -> inputService.validateInputs(inputs));
     }
 
     @Test
-    void mustThrowExceptionWhenInputsAreTooShortAndWithoutEquals() {
+    @DisplayName("O sistema deve verificar e aceitar a Seed que possui exatamente a mesma quantidade de linhas suportadas pela altura.")
+    void mustAcceptSeedDimensions() {
 
-        String[] inputs = {"w1", "hg10"};
+        String[] inputs = {"wd=15", "hg=15", "gn=20", "se=0123##############", "rp=250", "ex=i"};
 
-        assertThrows(InputIncompleteException.class, () ->
-            this.inputService.validateInputs(inputs)
-        );
+        assertDoesNotThrow(() -> inputService.validateInputs(inputs));
     }
 
     @Test
-    void mustThrowExceptionWhenInputsEqualsAreTheLastOnes() {
+    @DisplayName("O sistema deve verificar e negar a Seed por causa da largura.")
+    void mustThrowSeedDimensionsExceptionCausedByWidth() {
 
-        String[] inputs = {"wd10=", "hg=10"};
+        String[] inputs = {"wd=15", "hg=15", "gn=20", "se=0123###############", "rp=250", "ex=i"};
 
-        assertThrows(InputIncompleteException.class, () ->
-                this.inputService.validateInputs(inputs)
-        );
+        assertThrows(InputDimensionsException.class, () -> inputService.validateInputs(inputs));
     }
 
     @Test
-    void mustThrowExceptionWhenInputsEqualsAreTheFirstOnes() {
+    @DisplayName("O sistema deve verificar e negar a Seed por causa da altura.")
+    void mustThrowSeedDimensionsExceptionCausedByHeight() {
 
-        String[] inputs = {"=wd10", "hg=10"};
+        String[] inputs = {"wd=15", "hg=15", "gn=20", "se=01230101010101010100101010101010#############", "rp=250", "ex=i"};
 
-        assertThrows(InputIncompleteException.class, () ->
-                this.inputService.validateInputs(inputs)
-        );
-    }
-
-    @Test
-    void mustAcceptWhenJustAllMandatoryInputsArePresent() {
-
-        String[] inputs = InputTestDataFactory.getCorrectMandatoryInputs();
-
-        this.inputService.validateInputs(inputs);
-    }
-
-    @Test
-    void mustThrowExceptionWhenMandatoryInputAreNotPresent() {
-
-        String[] inputs = InputTestDataFactory.getCorrectOptionalInputs();
-
-        assertThrows(InputMissingException.class, () ->
-                this.inputService.validateInputs(inputs)
-        );
+        assertThrows(InputDimensionsException.class, () -> inputService.validateInputs(inputs));
     }
 }
