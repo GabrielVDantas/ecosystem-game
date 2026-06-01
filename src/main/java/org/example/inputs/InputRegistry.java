@@ -1,7 +1,6 @@
 package org.example.inputs;
 
-import org.example.exceptions.InputNotFoundException;
-import org.example.inputs.info.Width;
+import org.example.exceptions.input.InputNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;

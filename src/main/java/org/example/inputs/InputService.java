@@ -1,19 +1,19 @@
 package org.example.inputs;
 
-import org.example.exceptions.InputDimensionsException;
-import org.example.exceptions.InputIncompleteException;
-import org.example.exceptions.InputMissingException;
+import org.example.exceptions.input.InputDimensionsException;
+import org.example.exceptions.input.InputIncompleteException;
+import org.example.exceptions.input.InputMissingException;
 import org.example.inputs.info.*;
 
 import java.util.*;
 
 public class InputService {
 
-    private final List<Input> instances = List.of(
+    private final List<Input> domain = List.of(
             new Exhibition(), new Generation(), new Height(), new Rapidity(), new Seed(), new Width()
     );
 
-    private final InputRegistry registry = new InputRegistry(instances);
+    private final InputRegistry registry = new InputRegistry(domain);
 
     private final Map<String, String> received = new HashMap<>();
 
@@ -21,7 +21,7 @@ public class InputService {
 
         for (String input : inputs) {
 
-            if (input.length() < 4 || input.indexOf("=") != 2) throw new InputIncompleteException(input);
+            if (!input.contains("=") && input.split("=").length != 2) throw new InputIncompleteException(input);
 
             String[] itens = input.split("=");
             String pattern = itens[0].toLowerCase(), value = itens[1].toLowerCase();
@@ -33,7 +33,7 @@ public class InputService {
             this.received.put(pattern, value);
         }
 
-        for (Input input : this.instances) {
+        for (Input input : this.domain) {
 
             String related = this.received.get(input.getPattern());
 
@@ -59,5 +59,9 @@ public class InputService {
                 .max(Comparator.comparingInt(String::length)).orElse("").length();
 
         if (line > width) throw new InputDimensionsException(height, width, seed);
+    }
+
+    private String getReceivedInputBasedOnPattern(String pattern) {
+        return this.received.get(pattern);
     }
 }

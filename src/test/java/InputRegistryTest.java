@@ -1,4 +1,4 @@
-import org.example.exceptions.InputNotFoundException;
+import org.example.exceptions.input.InputNotFoundException;
 import org.example.inputs.Input;
 import org.example.inputs.InputRegistry;
 import org.example.inputs.info.*;
@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class InputRegistryTest {
 
-    private final List<Input> instances = List.of(
+    private final List<Input> domain = List.of(
             new Exhibition(), new Generation(), new Height(), new Rapidity(), new Seed(), new Width()
     );
 
-    private final InputRegistry inputRegistry = new InputRegistry(instances);
+    private final InputRegistry inputRegistry = new InputRegistry(domain);
 
     @Test
     @DisplayName("A registry deve retornar o Input equivalente ao pattern passado.")

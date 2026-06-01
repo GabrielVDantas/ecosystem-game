@@ -1,11 +1,19 @@
 
-import org.example.exceptions.InputDimensionsException;
-import org.example.exceptions.InputMissingException;
+import org.example.exceptions.input.InputDimensionsException;
+import org.example.exceptions.input.InputMissingException;
+import org.example.exceptions.input.InputValueException;
+import org.example.inputs.Input;
 import org.example.inputs.InputService;
+import org.example.inputs.info.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

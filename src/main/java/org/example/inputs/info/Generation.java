@@ -1,6 +1,6 @@
 package org.example.inputs.info;
 
-import org.example.exceptions.InputValueException;
+import org.example.exceptions.input.InputValueException;
 import org.example.inputs.Input;
 
 public class Generation implements Input {
@@ -28,7 +28,7 @@ public class Generation implements Input {
     @Override
     public void validateInputValue(String value) {
 
-        if (!value.chars().allMatch(Character::isDigit)) throw new RuntimeException(this.getName());
+        if (!value.chars().allMatch(Character::isDigit)) throw new InputValueException(this.getName());
 
         String[] domain = this.getDomain().split(":");
 

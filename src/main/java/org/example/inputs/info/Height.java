@@ -1,6 +1,6 @@
 package org.example.inputs.info;
 
-import org.example.exceptions.InputValueException;
+import org.example.exceptions.input.InputValueException;
 import org.example.inputs.Input;
 
 import java.util.Arrays;

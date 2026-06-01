@@ -1,6 +1,6 @@
 package org.example.inputs.info;
 
-import org.example.exceptions.InputValueException;
+import org.example.exceptions.input.InputValueException;
 import org.example.inputs.Input;
 
 
@@ -30,8 +30,8 @@ public class Exhibition implements Input {
     @Override
     public void validateInputValue(String value) {
 
-        String[] domain = value.split(":");
+        String[] domain = this.getDomain().split(":");
 
-        if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputValueException(this.getName());
+        if (Arrays.stream(domain).noneMatch(d -> d.equals(value))) throw new InputValueException(this.getName());
     }
 }

@@ -1,4 +1,4 @@
-package org.example.exceptions;
+package org.example.exceptions.input;
 
 public class InputMissingException extends RuntimeException {
 
