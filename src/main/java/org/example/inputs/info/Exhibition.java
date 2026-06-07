@@ -1,12 +1,14 @@
 package org.example.inputs.info;
 
 import org.example.exceptions.input.InputValueException;
+import org.example.inputs.BaseInput;
 import org.example.inputs.Input;
 
 
 import java.util.Arrays;
 
-public class Exhibition implements Input {
+public class Exhibition extends BaseInput<String> {
+
     @Override
     public String getName() {
         return "Exhibition";
@@ -33,5 +35,7 @@ public class Exhibition implements Input {
         String[] domain = this.getDomain().split(":");
 
         if (Arrays.stream(domain).noneMatch(d -> d.equals(value))) throw new InputValueException(this.getName());
+
+        this.setValue(value);
     }
 }

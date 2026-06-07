@@ -9,13 +9,11 @@ import java.util.*;
 
 public class InputService {
 
-    private final List<Input> domain = List.of(
+    private final List<Input<?>> domain = List.of(
             new Exhibition(), new Generation(), new Height(), new Rapidity(), new Seed(), new Width()
     );
 
     private final InputRegistry registry = new InputRegistry(domain);
-
-    private final Map<String, String> received = new HashMap<>();
 
     public void validateInputs(String[] inputs) {
 
@@ -26,42 +24,35 @@ public class InputService {
             String[] itens = input.split("=");
             String pattern = itens[0].toLowerCase(), value = itens[1].toLowerCase();
 
-            Input relatedInput = this.registry.getInputBasedOnPattern(pattern);
+            Input<?> relatedInput = this.registry.getInputBasedOnPattern(pattern);
 
             relatedInput.validateInputValue(value);
-
-            this.received.put(pattern, value);
         }
 
-        for (Input input : this.domain) {
+        for (Input<?> input : this.domain) {
 
-            String related = this.received.get(input.getPattern());
-
-            if (input.isMandatory() && (related == null || related.isBlank())) throw new InputMissingException(input.getName());
+            if (input.isMandatory() && input.getValue() == null) throw new InputMissingException(input.getName());
         }
 
-        if (this.received.get(new Seed().getPattern()) != null) {
-            this.validateMapDimensions(
-                    this.received.get(new Seed().getPattern()),
-                    Integer.parseInt(this.received.get(new Width().getPattern())),
-                    Integer.parseInt(this.received.get(new Height().getPattern()))
-            );
+        for (Input<?> input : this.domain) {
+
+            if (input instanceof Seed seed) {
+                Integer widthValue = (Integer) this.registry.getInput(new Width().getPattern()).getValue();
+
+                Integer heightValue = (Integer) this.registry.getInput(new Height().getPattern()).getValue();
+
+                if (input.getValue() != null) {
+                    String seedValue = seed.getValue();
+
+                    seed.validateDimensions(seedValue, widthValue, heightValue);
+                } else {
+                    Random random = new Random();
+
+                    seed.generateSeed(random, widthValue, heightValue);
+                }
+            }
+
+            if (input instanceof Exhibition exhibition && input.getValue() == null) exhibition.setValue("i");
         }
-    }
-
-    private void validateMapDimensions(String seed, int width, int height) {
-
-        int equals = (int) seed.chars().filter(c -> c == '#').count();
-
-        if (equals + 1 > height) throw new InputDimensionsException(height, width, seed);
-
-        int line = Arrays.stream(seed.split("#"))
-                .max(Comparator.comparingInt(String::length)).orElse("").length();
-
-        if (line > width) throw new InputDimensionsException(height, width, seed);
-    }
-
-    private String getReceivedInputBasedOnPattern(String pattern) {
-        return this.received.get(pattern);
     }
 }

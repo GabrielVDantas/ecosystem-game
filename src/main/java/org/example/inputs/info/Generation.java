@@ -1,9 +1,10 @@
 package org.example.inputs.info;
 
 import org.example.exceptions.input.InputValueException;
+import org.example.inputs.BaseInput;
 import org.example.inputs.Input;
 
-public class Generation implements Input {
+public class Generation extends BaseInput<Integer> {
 
     @Override
     public String getName() {
@@ -37,5 +38,7 @@ public class Generation implements Input {
         int min = Integer.parseInt(domain[0]), max = Integer.parseInt(domain[1]);
 
         if (number < min || number > max) throw new InputValueException(this.getName());
+
+        this.setValue(number);
     }
 }

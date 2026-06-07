@@ -2,6 +2,7 @@ package org.example.cells;
 
 import org.example.cells.info.Rock;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class CellService {
@@ -11,6 +12,8 @@ public class CellService {
     );
 
     private final CellRegistry cellRegistry = new CellRegistry(domain);
+
+    private Cell[][] map;
 
     public Cell[][] turnSeedIntoMap(String seed, int width, int height) {
 
@@ -28,6 +31,14 @@ public class CellService {
                         Cell cell = this.cellRegistry.getCellBasedOnCharacter(character);
                         map[j][k] = cell;
                     }
+                }
+            }
+        }
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (map[i][j] == null) {
+                    map[i][j] = new Rock();
                 }
             }
         }

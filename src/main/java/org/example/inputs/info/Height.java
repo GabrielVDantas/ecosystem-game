@@ -1,11 +1,13 @@
 package org.example.inputs.info;
 
 import org.example.exceptions.input.InputValueException;
+import org.example.inputs.BaseInput;
 import org.example.inputs.Input;
 
 import java.util.Arrays;
 
-public class Height implements Input {
+public class Height extends BaseInput<Integer> {
+
     @Override
     public String getName() {
         return "Height";
@@ -32,5 +34,7 @@ public class Height implements Input {
         String[] domain = this.getDomain().split(":");
 
         if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputValueException(this.getName());
+
+        this.setValue(Integer.parseInt(value));
     }
 }

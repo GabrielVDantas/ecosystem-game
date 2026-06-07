@@ -1,12 +1,11 @@
 package org.example.inputs.info;
 
 import org.example.exceptions.input.InputValueException;
-import org.example.inputs.Input;
+import org.example.inputs.BaseInput;
 
 import java.util.Arrays;
 
-public class Width implements Input {
-
+public class Width extends BaseInput<Integer> {
 
     @Override
     public String getName() {
@@ -34,5 +33,7 @@ public class Width implements Input {
         String[] domain = this.getDomain().split(":");
 
         if (Arrays.stream(domain).noneMatch(d -> d.equalsIgnoreCase(value))) throw new InputValueException(this.getName());
+
+        this.setValue(Integer.parseInt(value));
     }
 }

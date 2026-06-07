@@ -1,6 +1,10 @@
 package org.example.inputs;
 
-public interface Input {
+public interface Input<T> {
+
+    void setValue(T value);
+
+    T getValue();
 
     String getName();
 
