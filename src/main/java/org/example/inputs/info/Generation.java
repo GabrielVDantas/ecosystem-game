@@ -2,7 +2,6 @@ package org.example.inputs.info;
 
 import org.example.exceptions.input.InputValueException;
 import org.example.inputs.BaseInput;
-import org.example.inputs.Input;
 
 public class Generation extends BaseInput<Integer> {
 
@@ -27,18 +26,29 @@ public class Generation extends BaseInput<Integer> {
     }
 
     @Override
-    public void validateInputValue(String value) {
+    protected Integer parseValue(String value) {
+        return Integer.parseInt(value);
+    }
 
-        if (!value.chars().allMatch(Character::isDigit)) throw new InputValueException(this.getName());
+    @Override
+    public void validateValue(String value) {
 
-        String[] domain = this.getDomain().split(":");
+        if (value == null || value.isEmpty() || !value.chars().allMatch(Character::isDigit)) throw new InputValueException(this.getName());
 
-        int number = Integer.parseInt(value);
+        try {
+            int number = this.parseValue(value);
 
-        int min = Integer.parseInt(domain[0]), max = Integer.parseInt(domain[1]);
+            String[] domain = this.getDomain().split(":");
 
-        if (number < min || number > max) throw new InputValueException(this.getName());
+            int min = Integer.parseInt(domain[0]);
+            int max = Integer.parseInt(domain[1]);
 
-        this.setValue(number);
+            if (number < min || number > max) throw new InputValueException(this.getName());
+
+            this.setValue(number);
+
+        } catch (NumberFormatException ex) {
+            throw new InputValueException(this.getName());
+        }
     }
 }

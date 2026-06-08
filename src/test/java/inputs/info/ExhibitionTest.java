@@ -2,7 +2,6 @@ package inputs.info;
 
 import org.example.exceptions.input.InputValueException;
 import org.example.inputs.info.Exhibition;
-import org.example.inputs.info.Width;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,7 +21,7 @@ public class ExhibitionTest {
     @DisplayName("Deve aceitar valores de exhibition válidos")
     void mustAcceptValidExhibitionValues(String value) {
 
-        assertDoesNotThrow(() -> exhibition.validateInputValue(value));
+        assertDoesNotThrow(() -> exhibition.validateValue(value));
     }
 
     @ParameterizedTest
@@ -33,6 +32,6 @@ public class ExhibitionTest {
     @DisplayName("Deve lançar exceção para valores de exhibition inválidos")
     void mustThrowExceptionForInvalidExhibitionValues(String value) {
 
-        assertThrows(InputValueException.class, () -> exhibition.validateInputValue(value));
+        assertThrows(InputValueException.class, () -> exhibition.validateValue(value));
     }
 }

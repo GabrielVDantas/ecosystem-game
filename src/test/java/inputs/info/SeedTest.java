@@ -2,7 +2,6 @@ package inputs.info;
 
 import org.example.exceptions.input.InputValueException;
 import org.example.inputs.info.Seed;
-import org.example.inputs.info.Width;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +23,7 @@ public class SeedTest {
     @DisplayName("Deve aceitar valores de Seed válidos")
     void mustAcceptValidSeedValues(String value) {
 
-        assertDoesNotThrow(() -> seed.validateInputValue(value));
+        assertDoesNotThrow(() -> seed.validateValue(value));
     }
 
     @ParameterizedTest
@@ -40,6 +39,6 @@ public class SeedTest {
     @DisplayName("Deve lançar exceção para valores de Seed inválidos")
     void mustThrowExceptionForInvalidSeedValues(String value) {
 
-        assertThrows(InputValueException.class, () -> seed.validateInputValue(value));
+        assertThrows(InputValueException.class, () -> seed.validateValue(value));
     }
 }

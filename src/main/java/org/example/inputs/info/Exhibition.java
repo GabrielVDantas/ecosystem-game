@@ -1,11 +1,7 @@
 package org.example.inputs.info;
 
-import org.example.exceptions.input.InputValueException;
 import org.example.inputs.BaseInput;
-import org.example.inputs.Input;
-
-
-import java.util.Arrays;
+import org.example.inputs.InputRegistry;
 
 public class Exhibition extends BaseInput<String> {
 
@@ -30,12 +26,12 @@ public class Exhibition extends BaseInput<String> {
     }
 
     @Override
-    public void validateInputValue(String value) {
+    protected String parseValue(String value) {
+        return value;
+    }
 
-        String[] domain = this.getDomain().split(":");
-
-        if (Arrays.stream(domain).noneMatch(d -> d.equals(value))) throw new InputValueException(this.getName());
-
-        this.setValue(value);
+    @Override
+    public void validateInputDetails(InputRegistry inputRegistry) {
+        if (this.getValue() == null) this.setValue("i");
     }
 }

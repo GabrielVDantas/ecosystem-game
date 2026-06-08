@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class InputRegistryTest {
 
-    private final List<Input> domain = List.of(
+    private final List<Input<?>> domain = List.of(
             new Exhibition(), new Generation(), new Height(), new Rapidity(), new Seed(), new Width()
     );
 
@@ -23,11 +23,11 @@ class InputRegistryTest {
 
     @Test
     @DisplayName("A registry deve retornar o Input equivalente ao pattern passado.")
-    void inputRegistryMustGetInputBasedOnPattern() {
+    void inputRegistryMustGetAndValidateInput() {
 
         String wantedPattern = new Width().getPattern();
 
-        Input received = this.inputRegistry.getInputBasedOnPattern(wantedPattern);
+        Input<?> received = this.inputRegistry.getAndValidateInput(wantedPattern);
 
         assertEquals(wantedPattern, received.getPattern());
     }
@@ -39,7 +39,7 @@ class InputRegistryTest {
         String invalidPattern = "xx";
 
         assertThrows(InputNotFoundException.class, () ->
-            this.inputRegistry.getInputBasedOnPattern(invalidPattern)
+            this.inputRegistry.getAndValidateInput(invalidPattern)
         );
     }
 }

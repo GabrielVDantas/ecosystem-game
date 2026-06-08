@@ -21,7 +21,7 @@ public class WidthTest {
     @DisplayName("Deve aceitar valores de largura válidos")
     void mustAcceptValidWidthValues(String value) {
 
-        assertDoesNotThrow(() -> width.validateInputValue(value));
+        assertDoesNotThrow(() -> width.validateValue(value));
     }
 
     @ParameterizedTest
@@ -33,6 +33,6 @@ public class WidthTest {
     @DisplayName("Deve lançar exceção para valores de largura inválidos")
     void mustThrowExceptionForInvalidWidthValues(String value) {
 
-        assertThrows(InputValueException.class, () -> width.validateInputValue(value));
+        assertThrows(InputValueException.class, () -> width.validateValue(value));
     }
 }

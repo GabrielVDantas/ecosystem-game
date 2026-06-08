@@ -21,7 +21,7 @@ public class HeightTest {
     @DisplayName("Deve aceitar valores de altura válidos")
     void mustAcceptValidHeightValues(String value) {
 
-        assertDoesNotThrow(() -> height.validateInputValue(value));
+        assertDoesNotThrow(() -> height.validateValue(value));
     }
 
     @ParameterizedTest
@@ -33,6 +33,6 @@ public class HeightTest {
     @DisplayName("Deve lançar exceção para valores de altura inválidos")
     void mustThrowExceptionForInvalidHeightValues(String value) {
 
-        assertThrows(InputValueException.class, () -> height.validateInputValue(value));
+        assertThrows(InputValueException.class, () -> height.validateValue(value));
     }
 }

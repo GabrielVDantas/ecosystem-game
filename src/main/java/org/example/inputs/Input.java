@@ -14,5 +14,9 @@ public interface Input<T> {
 
     String getDomain();
 
-    void validateInputValue(String value);
+    void validateValue(String value);
+
+    void validateInputDetails(InputRegistry inputRegistry);
+
+    void validatePresence();
 }

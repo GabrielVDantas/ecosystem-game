@@ -21,7 +21,7 @@ public class RapidityTest {
     @DisplayName("Deve aceitar valores de rapidez válidos")
     void mustAcceptValidRapidityValues(String value) {
 
-        assertDoesNotThrow(() -> rapidity.validateInputValue(value));
+        assertDoesNotThrow(() -> rapidity.validateValue(value));
     }
 
     @ParameterizedTest
@@ -33,6 +33,6 @@ public class RapidityTest {
     @DisplayName("Deve lançar exceção para valores de rapidez inválidos")
     void mustThrowExceptionForInvalidRapidityValues(String value) {
 
-        assertThrows(InputValueException.class, () -> rapidity.validateInputValue(value));
+        assertThrows(InputValueException.class, () -> rapidity.validateValue(value));
     }
 }

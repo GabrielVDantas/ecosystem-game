@@ -8,16 +8,25 @@ import java.util.Map;
 
 public class InputRegistry {
 
-    private final Map<String, Input<?>> inputs = new HashMap<>();
+    private final Map<String, Input<?>> inputsByPattern = new HashMap<>();
 
-    public Input<?> getInput(String pattern) {
+    private final Map<Class<?>, Input<?>> inputsByClass = new HashMap<>();
 
-        return this.inputs.get(pattern);
+    public <E extends Input<?>> E getInputByClass(Class<E> clazz) {
+        Input<?> input = this.inputsByClass.get(clazz);
+        if (input == null) {
+            throw new InputNotFoundException(clazz.getSimpleName());
+        }
+
+        return (E) input;
     }
 
-    public Input<?> getInputBasedOnPattern(String pattern) {
+    public Input<?> getInput(String pattern) {
+        return this.inputsByPattern.get(pattern);
+    }
 
-        Input<?> input = this.inputs.get(pattern);
+    public Input<?> getAndValidateInput(String pattern) {
+        Input<?> input = this.getInput(pattern);
 
         if (input == null) throw new InputNotFoundException(pattern);
 
@@ -25,7 +34,11 @@ public class InputRegistry {
     }
 
     public InputRegistry(List<Input<?>> instances) {
+        for (Input<?> input : instances) {
 
-        instances.forEach(input -> this.inputs.put(input.getPattern(), input));
+            this.inputsByPattern.put(input.getPattern(), input);
+
+            this.inputsByClass.put(input.getClass(), input);
+        }
     }
 }

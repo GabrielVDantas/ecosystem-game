@@ -2,7 +2,6 @@ package org.example.cells;
 
 import org.example.cells.info.Rock;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class CellService {
@@ -15,7 +14,7 @@ public class CellService {
 
     private Cell[][] map;
 
-    public Cell[][] turnSeedIntoMap(String seed, int width, int height) {
+    public Cell[][] generateSeedMap(String seed, int width, int height) {
 
         Cell[][] map = new Cell[width][height];
 
@@ -28,7 +27,7 @@ public class CellService {
                     if (character.equals("#")) k++;
 
                     else {
-                        Cell cell = this.cellRegistry.getCellBasedOnCharacter(character);
+                        Cell cell = this.cellRegistry.getCellBasedOnNumber(character);
                         map[j][k] = cell;
                     }
                 }
@@ -37,9 +36,7 @@ public class CellService {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (map[i][j] == null) {
-                    map[i][j] = new Rock();
-                }
+                if (map[i][j] == null) map[i][j] = new Rock();
             }
         }
 

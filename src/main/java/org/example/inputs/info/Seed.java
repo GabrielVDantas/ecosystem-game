@@ -3,6 +3,7 @@ package org.example.inputs.info;
 import org.example.exceptions.input.InputDimensionsException;
 import org.example.exceptions.input.InputValueException;
 import org.example.inputs.BaseInput;
+import org.example.inputs.InputRegistry;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -31,7 +32,29 @@ public class Seed extends BaseInput<String> {
     }
 
     @Override
-    public void validateInputValue(String value) {
+    protected String parseValue(String value) {
+        return value;
+    }
+
+    @Override
+    public void validateInputDetails(InputRegistry inputRegistry) {
+
+        Integer width = inputRegistry.getInputByClass(Width.class).getValue();
+
+        Integer height = inputRegistry.getInputByClass(Height.class).getValue();
+
+        if (this.getValue() != null) {
+
+            validateDimensions(this.getValue(), width, height);
+        } else {
+            Random random = new Random();
+
+            setDefaultValue(random, width, height);
+        }
+    }
+
+    @Override
+    public void validateValue(String value) {
 
         String[] domain = this.getDomain().split(":");
 
@@ -44,7 +67,7 @@ public class Seed extends BaseInput<String> {
         this.setValue(value);
     }
 
-    public void generateSeed(Random random, int width, int height) {
+    public void setDefaultValue(Random random, int width, int height) {
 
         String[] domain = this.getDomain().split(":");
 

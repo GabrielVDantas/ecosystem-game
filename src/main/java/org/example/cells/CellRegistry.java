@@ -10,7 +10,7 @@ public class CellRegistry {
 
     private final Map<String, Cell> cells = new HashMap<>();
 
-    public Cell getCellBasedOnCharacter(String number) {
+    public Cell getCellBasedOnNumber(String number) {
         Cell cell = this.cells.get(number);
 
         if (cell == null) throw new CellNotFoundException(number);

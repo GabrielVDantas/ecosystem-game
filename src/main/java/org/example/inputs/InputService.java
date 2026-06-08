@@ -1,8 +1,6 @@
 package org.example.inputs;
 
-import org.example.exceptions.input.InputDimensionsException;
 import org.example.exceptions.input.InputIncompleteException;
-import org.example.exceptions.input.InputMissingException;
 import org.example.inputs.info.*;
 
 import java.util.*;
@@ -19,40 +17,27 @@ public class InputService {
 
         for (String input : inputs) {
 
-            if (!input.contains("=") && input.split("=").length != 2) throw new InputIncompleteException(input);
+            if (input == null || !input.contains("=")) throw new InputIncompleteException(input);
 
-            String[] itens = input.split("=");
+            String[] itens = input.split("=", -1);
+
+            if (itens.length != 2) throw new InputIncompleteException(input);
+
             String pattern = itens[0].toLowerCase(), value = itens[1].toLowerCase();
 
-            Input<?> relatedInput = this.registry.getInputBasedOnPattern(pattern);
+            Input<?> relatedInput = this.registry.getAndValidateInput(pattern);
 
-            relatedInput.validateInputValue(value);
+            relatedInput.validateValue(value);
         }
 
         for (Input<?> input : this.domain) {
+            input.validatePresence();
 
-            if (input.isMandatory() && input.getValue() == null) throw new InputMissingException(input.getName());
+            input.validateInputDetails(registry);
         }
+    }
 
-        for (Input<?> input : this.domain) {
-
-            if (input instanceof Seed seed) {
-                Integer widthValue = (Integer) this.registry.getInput(new Width().getPattern()).getValue();
-
-                Integer heightValue = (Integer) this.registry.getInput(new Height().getPattern()).getValue();
-
-                if (input.getValue() != null) {
-                    String seedValue = seed.getValue();
-
-                    seed.validateDimensions(seedValue, widthValue, heightValue);
-                } else {
-                    Random random = new Random();
-
-                    seed.generateSeed(random, widthValue, heightValue);
-                }
-            }
-
-            if (input instanceof Exhibition exhibition && input.getValue() == null) exhibition.setValue("i");
-        }
+    public Input<?> getInput(String pattern) {
+        return this.registry.getInput(pattern);
     }
 }

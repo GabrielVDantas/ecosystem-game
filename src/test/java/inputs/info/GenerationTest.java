@@ -2,7 +2,6 @@ package inputs.info;
 
 import org.example.exceptions.input.InputValueException;
 import org.example.inputs.info.Generation;
-import org.example.inputs.info.Height;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,7 +21,7 @@ public class GenerationTest {
     @DisplayName("Deve aceitar valores de generation válidos")
     void mustAcceptValidGenerationValues(String value) {
 
-        assertDoesNotThrow(() -> generation.validateInputValue(value));
+        assertDoesNotThrow(() -> generation.validateValue(value));
     }
 
     @ParameterizedTest
@@ -33,6 +32,6 @@ public class GenerationTest {
     @DisplayName("Deve lançar exceção para valores de generation inválidos")
     void mustThrowExceptionForInvalidGenerationValues(String value) {
 
-        assertThrows(InputValueException.class, () -> generation.validateInputValue(value));
+        assertThrows(InputValueException.class, () -> generation.validateValue(value));
     }
 }
